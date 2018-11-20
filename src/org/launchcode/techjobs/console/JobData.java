@@ -50,8 +50,26 @@ public class JobData {
 
         // load data, if not already loaded
         loadData();
+        ArrayList<HashMap<String, String>> allJobs_copy = new ArrayList<>(allJobs);
+        return allJobs_copy;
+    }
 
-        return allJobs;
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> row : allJobs) {
+            for (HashMap.Entry<String, String> entry : row.entrySet()) {
+                String aValue = entry.getValue();
+                if (aValue.equalsIgnoreCase(value)) {
+                    jobs.add(row);
+                }
+            }
+
+        }
+
+        return jobs;
     }
 
     /**
@@ -62,7 +80,7 @@ public class JobData {
      * with "Enterprise Holdings, Inc".
      *
      * @param column   Column that should be searched.
-     * @param value Value of teh field to search for
+     * @param value Value of the field to search for
      * @return List of all jobs matching the criteria
      */
     public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String value) {
@@ -76,7 +94,7 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.equalsIgnoreCase(value)) {
                 jobs.add(row);
             }
         }
